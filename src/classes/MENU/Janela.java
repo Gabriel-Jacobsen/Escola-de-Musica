@@ -14,7 +14,7 @@ public class Janela extends JFrame {
 		
 		setTitle("Escola de Musica");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 500);
+        setSize(700, 700);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		
@@ -22,6 +22,9 @@ public class Janela extends JFrame {
         panelPrincipal = new JPanel(card);
         
         panelPrincipal.add(new MenuLogin(this), "menuLogin");
+        panelPrincipal.add(new MenuPrincipalAluno(this), "menuPrincipalAluno");
+        panelPrincipal.add(new MenuPrincipalProfessor(this), "menuPrincipalProfessor");
+        panelPrincipal.add(new MenuPrincipalGerenciador(this), "menuPrincipalGerenciador");
         
         add(panelPrincipal);
 		

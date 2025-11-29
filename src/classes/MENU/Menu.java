@@ -10,10 +10,14 @@ public class Menu  extends JPanel {
 	
 	private Janela janela;
 	
+	protected BorderLayout border;
+	
 	public Menu(Janela janela) {
 		this.janela = janela;
 		
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		border = new BorderLayout();
+		
+		setLayout(border);
 	}
 	
 	public void trocarMenu(String nome) {
