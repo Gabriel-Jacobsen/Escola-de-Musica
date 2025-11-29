@@ -5,13 +5,13 @@ public class TipoInstrumento {
 	private static int idMax = 1;
 	private int idTipo;
 	private String nome, descricao;
-	
+
 	public TipoInstrumento(String nome) {
 		this.idTipo = idMax;
 		idMax++;
 		this.nome = nome;
 	}
-	
+
 	public TipoInstrumento(String nome, int id) {
 		this.idTipo = id;
 		this.nome = nome;
@@ -40,6 +40,6 @@ public class TipoInstrumento {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	
+
+
 }

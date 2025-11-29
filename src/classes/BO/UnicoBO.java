@@ -6,38 +6,38 @@ import classes.DAO.UnicoDAO;
 import classes.DTO.Unico;
 
 public class UnicoBO {
-	
+
 	//essa classe serve só de comunicação entre a DAO e o resto do programa
-	
+
     public boolean inserir(Unico unico){
-        if (existe(unico) != true) {
-            UnicoDAO marcasDAO = new UnicoDAO();
-            return marcasDAO.inserir(unico);
+        if (!existe(unico)) {
+            UnicoDAO unicoDAO = new UnicoDAO();
+            return unicoDAO.inserir(unico);
         }
         return false;
     }
     public boolean alterar(Unico unico){
-    	UnicoDAO marcasDAO = new UnicoDAO();
-        return marcasDAO.alterar(unico);
+    	UnicoDAO unicoDAO = new UnicoDAO();
+        return unicoDAO.alterar(unico);
     }
     public boolean excluir(Unico unico){
-    	UnicoDAO marcasDAO = new UnicoDAO();
-        return marcasDAO.excluir(unico);
+    	UnicoDAO unicoDAO = new UnicoDAO();
+        return unicoDAO.excluir(unico);
     }
     public Unico procurarPorCodigo(Unico unico){
-    	UnicoDAO marcasDAO = new UnicoDAO();
-        return marcasDAO.procurarPorCodigo(unico);
+    	UnicoDAO unicoDAO = new UnicoDAO();
+        return unicoDAO.procurarPorCodigo(unico);
     }
     public Unico procurarPorNome(Unico unico){
-    	UnicoDAO marcasDAO = new UnicoDAO();
-        return marcasDAO.procurarPorNome(unico);
+    	UnicoDAO unicoDAO = new UnicoDAO();
+        return unicoDAO.procurarPorNome(unico);
     }
     public boolean existe(Unico unico){
-    	UnicoDAO marcasDAO = new UnicoDAO();
-        return marcasDAO.existe(unico);
+    	UnicoDAO unicoDAO = new UnicoDAO();
+        return unicoDAO.existe(unico);
     }
     public List<Unico> pesquisarTodos(){
-    	UnicoDAO marcasDAO = new UnicoDAO();
-        return marcasDAO.pesquisarTodos();
+    	UnicoDAO unicoDAO = new UnicoDAO();
+        return unicoDAO.pesquisarTodos();
     }
 }

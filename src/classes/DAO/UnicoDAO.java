@@ -11,7 +11,7 @@ import classes.DTO.Unico;
 
 public class UnicoDAO {
     final String NOMEDATABELA = "Unico";
-    
+
     public boolean inserir(Unico unico) {  //colocar sempre o objeto que ta sendo feito
         try {
             Connection conn = Conexao.conectar();
@@ -142,7 +142,7 @@ public class UnicoDAO {
             String sql = "SELECT * FROM " + NOMEDATABELA + ";";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            List<Unico> listObj = montarLista(rs);  //mesma coisa do "procura por nome"  mas retorna uma lista. 
+            List<Unico> listObj = montarLista(rs);  //mesma coisa do "procura por nome"  mas retorna uma lista.
             return listObj;
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,7 +150,7 @@ public class UnicoDAO {
         }
     }
     public List<Unico> montarLista(ResultSet rs) {
-        List<Unico> listObj = new ArrayList<Unico>();
+        List<Unico> listObj = new ArrayList<>();
         try {
             while (rs.next()) {
                 Unico obj = new Unico(rs.getString(1), rs.getString(2), rs.getDate(5));

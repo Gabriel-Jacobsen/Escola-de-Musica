@@ -13,7 +13,7 @@ import classes.DTO.TipoInstrumento;
 
 public class EspecialidadeDAO {
     final String NOMEDATABELA = "Especialidade";
-    
+
     public boolean inserir(Especialidade especialidade) {
         try {
             Connection conn = Conexao.conectar();
@@ -74,7 +74,7 @@ public class EspecialidadeDAO {
             ps.setString(1, especialidade.getProf().getCpf());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Especialidade obj = new Especialidade(new Professor(rs.getString(1), rs.getString(6), rs.getDate(11), rs.getDouble(4)), 
+                Especialidade obj = new Especialidade(new Professor(rs.getString(1), rs.getString(6), rs.getDate(11), rs.getDouble(4)),
 						  new TipoInstrumento(rs.getString(6), rs.getInt(2)));
                 ps.close();
                 rs.close();
@@ -101,7 +101,7 @@ public class EspecialidadeDAO {
             ps.setString(1, especialidade.getProf().getNome());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Especialidade obj = new Especialidade(new Professor(rs.getString(1), rs.getString(6), rs.getDate(11), rs.getDouble(4)), 
+                Especialidade obj = new Especialidade(new Professor(rs.getString(1), rs.getString(6), rs.getDate(11), rs.getDouble(4)),
                 									  new TipoInstrumento(rs.getString(6), rs.getInt(2)));
                 ps.close();
                 rs.close();
@@ -155,10 +155,10 @@ public class EspecialidadeDAO {
     }
 
     public List<Especialidade> montarLista(ResultSet rs) {
-        List<Especialidade> listObj = new ArrayList<Especialidade>();
+        List<Especialidade> listObj = new ArrayList<>();
         try {
             while (rs.next()) {
-                Especialidade obj = new Especialidade(new Professor(rs.getString(1), rs.getString(6), rs.getDate(11), rs.getDouble(4)), 
+                Especialidade obj = new Especialidade(new Professor(rs.getString(1), rs.getString(6), rs.getDate(11), rs.getDouble(4)),
 						  new TipoInstrumento(rs.getString(6), rs.getInt(2)));
                 listObj.add(obj);
             }

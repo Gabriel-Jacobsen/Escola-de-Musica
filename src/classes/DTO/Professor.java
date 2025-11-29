@@ -3,7 +3,7 @@ package classes.DTO;
 import java.sql.Date;
 
 public class Professor extends Unico {
-	
+
 	private double salario;
 	private Date dataContratacao;
 

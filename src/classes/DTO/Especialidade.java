@@ -4,7 +4,7 @@ public class Especialidade {
 
 	private Professor prof;
 	private TipoInstrumento instrumento;
-	
+
 	public Especialidade(Professor prof, TipoInstrumento instrumento) {
 		this.prof = prof;
 		this.instrumento = instrumento;
@@ -25,5 +25,5 @@ public class Especialidade {
 	public void setInstrumento(TipoInstrumento instrumento) {
 		this.instrumento = instrumento;
 	}
-	
+
 }

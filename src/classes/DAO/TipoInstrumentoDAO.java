@@ -11,8 +11,8 @@ import classes.DTO.TipoInstrumento;
 
 public class TipoInstrumentoDAO {
     final String NOMEDATABELA = "TipoInstrumento";
-    
-    public boolean inserir(TipoInstrumento tipoInstr) {  
+
+    public boolean inserir(TipoInstrumento tipoInstr) {
         try {
             Connection conn = Conexao.conectar();
             String sql = "INSERT INTO " + NOMEDATABELA + " (idTipo,NOME,Descricao) VALUES (?,?,?);";
@@ -151,7 +151,7 @@ public class TipoInstrumentoDAO {
     }
 
     public List<TipoInstrumento> montarLista(ResultSet rs) {
-        List<TipoInstrumento> listObj = new ArrayList<TipoInstrumento>();
+        List<TipoInstrumento> listObj = new ArrayList<>();
         try {
             while (rs.next()) {
                 TipoInstrumento obj = new TipoInstrumento(rs.getString(2), rs.getInt(1));

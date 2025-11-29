@@ -6,11 +6,11 @@ import classes.DAO.EspecialidadeDAO;
 import classes.DTO.Especialidade;
 
 public class EspecialidadeBO {
-    
+
     //essa classe serve só de comunicação entre a DAO e o resto do programa
-    
+
     public boolean inserir(Especialidade especialidade){
-        if (existe(especialidade) != true) {
+        if (!existe(especialidade)) {
             EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
             return especialidadeDAO.inserir(especialidade);
         }
