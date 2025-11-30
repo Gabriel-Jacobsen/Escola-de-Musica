@@ -25,6 +25,9 @@ public class Menu  extends JPanel {
 	public void trocarMenu(String nome) {
         janela.trocarMenu(nome);
     }
+	public void trocarSubMenu(String nome) {
+		
+	}
 	
 	public void atualiza() {
 		

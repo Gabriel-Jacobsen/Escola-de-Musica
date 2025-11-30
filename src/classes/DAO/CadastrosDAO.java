@@ -18,7 +18,7 @@ public class CadastrosDAO {
         try {
             Connection conn = Conexao.conectar();
             String sql = "INSERT INTO " + NOMEDATABELA +
-                         " (CPF,senha, idTipo) VALUES (?,?,?);";
+                         " (CPF,senha, Tipo) VALUES (?,?,?);";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(1, cadastros.getLogin());

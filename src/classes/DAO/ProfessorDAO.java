@@ -22,6 +22,7 @@ public class ProfessorDAO {
             ps.setString(1, professor.getCpf());
             ps.setDouble(2, professor.getSalario());
             ps.setDate(3, professor.getDataContratacao());
+            ps.executeUpdate();
             ps.close();
             conn.close();
             return true;
@@ -144,7 +145,7 @@ public class ProfessorDAO {
     public List<Professor> pesquisarTodos() {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + "JOIN UNICO ON UNICO.CPF = PROFESSOR.CPF ;";
+            String sql = "SELECT * FROM " + NOMEDATABELA + " JOIN UNICO ON UNICO.CPF = PROFESSOR.CPF;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             List<Professor> listObj = montarLista(rs);

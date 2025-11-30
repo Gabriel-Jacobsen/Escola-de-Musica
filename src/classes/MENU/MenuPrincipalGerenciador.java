@@ -1,6 +1,7 @@
 package classes.MENU;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 
 import javax.swing.Box;
@@ -13,6 +14,15 @@ import classes.DTO.Unico;
 
 public class MenuPrincipalGerenciador extends Menu {
 
+	 private CardLayout card;
+	 private JPanel subMenus; 
+	 private SubMenuGerenciadorOlharCadastros olhar =  new SubMenuGerenciadorOlharCadastros(this);
+	 private SubMenuGerenciadorAdicionarProfessores adicionarProf = new SubMenuGerenciadorAdicionarProfessores(this);
+	 private SubMenuGerenciadorAdicionarTipoInstrumento adicionarInstrumento = new SubMenuGerenciadorAdicionarTipoInstrumento(this);
+	 private SubMenuGerenciadorExcluir excluirCadastro = new SubMenuGerenciadorExcluir(this);
+	 private SubMenuGerenciadorAdicionarEspecialidade adicionarEspecialidade = new SubMenuGerenciadorAdicionarEspecialidade(this);
+	 private SubMenuGerenciadorAlterarCadastro alteraCadastro = new SubMenuGerenciadorAlterarCadastro(this);
+	
 	JLabel lblNome;
 	JLabel lblEmail;
 	JLabel lblTelefone;
@@ -30,29 +40,42 @@ public class MenuPrincipalGerenciador extends Menu {
 
 		JButton btnAlterarCadastro = new JButton("Alterar Cadastro");
 		btnAlterarCadastro.addActionListener(e -> {
-
+			alteraCadastro.mostrarProfessores();
+			trocarSubMenu("alteraCadastro");
 		});
 		JButton btnExcluirCadastro = new JButton("Excluir cadastro");
 		btnExcluirCadastro.addActionListener(e -> {
+			excluirCadastro.mostrar();
+			trocarSubMenu("ExcluirCadastro");
+		});
+		JButton btnAdicionarAlunos = new JButton("Aluno");
+		btnAdicionarAlunos.addActionListener(e -> {
 
 		});
-		JButton btnOlharMatriculas = new JButton("Matriculas Existentes");
-		btnOlharMatriculas.addActionListener(e -> {
-
+		JButton btnAdicionarProfessores = new JButton("Professor");
+		btnAdicionarProfessores.addActionListener(e -> {
+			trocarSubMenu("adicionarProf");
 		});
-		JButton btnAdicionarCadastro = new JButton("Realizar Cadastro");
-		btnAdicionarCadastro.addActionListener(e -> {
-
+		JButton btnAdiconarEspecialidade = new JButton("Especialidade");
+		btnAdiconarEspecialidade.addActionListener(e -> {
+			adicionarEspecialidade.mostrar();
+			trocarSubMenu("adicionarEsp");
+		});
+		JButton btnAdiconarTipoInstrumento = new JButton("Tipo Instrumento");
+		btnAdiconarTipoInstrumento.addActionListener(e -> {
+			trocarSubMenu("adicionarTipo");
 		});
 		JButton btnVisualizarCadastros = new JButton("Visualizar Cadastros");
 		btnVisualizarCadastros.addActionListener(e -> {
-
+			trocarSubMenu("olhar");
 		});
 
 		btnAlterarCadastro.setMaximumSize(new Dimension(150, 40));
 		btnExcluirCadastro.setMaximumSize(new Dimension(150, 40));
-		btnOlharMatriculas.setMaximumSize(new Dimension(150, 40));
-		btnAdicionarCadastro.setMaximumSize(new Dimension(150, 40));
+		btnAdicionarAlunos.setMaximumSize(new Dimension(150, 40));
+		btnAdicionarProfessores.setMaximumSize(new Dimension(150, 40));
+		btnAdiconarEspecialidade.setMaximumSize(new Dimension(150, 40));
+		btnAdiconarTipoInstrumento.setMaximumSize(new Dimension(150, 40));
 		btnVisualizarCadastros.setMaximumSize(new Dimension(150, 40));
 
 		painel.add(lblNome);
@@ -67,12 +90,27 @@ public class MenuPrincipalGerenciador extends Menu {
 		painel.add(Box.createVerticalStrut(30));
 		painel.add(btnExcluirCadastro);
 		painel.add(Box.createVerticalStrut(30));
-		painel.add(btnAdicionarCadastro);
+		painel.add(btnAdicionarAlunos);
 		painel.add(Box.createVerticalStrut(30));
-		painel.add(btnOlharMatriculas);
+		painel.add(btnAdicionarProfessores);
+		painel.add(Box.createVerticalStrut(30));
+		painel.add(btnAdiconarEspecialidade);
+		painel.add(Box.createVerticalStrut(30));
+		painel.add(btnAdiconarTipoInstrumento);
 		painel.add(Box.createVerticalGlue());
 
-		add(painel, BorderLayout.WEST);
+		card = new CardLayout();
+        subMenus = new JPanel(card);
+        
+        subMenus.add(olhar, "olhar");
+        subMenus.add(adicionarProf, "adicionarProf");
+        subMenus.add(excluirCadastro, "ExcluirCadastro");
+        subMenus.add(adicionarInstrumento, "adicionarTipo");
+        subMenus.add(adicionarEspecialidade, "adicionarEsp");
+        subMenus.add(alteraCadastro, "alteraCadastro");
+		
+		add(painel, border.WEST);
+		add(subMenus, border.CENTER);
 	}
 	
 	public void atualiza() {
@@ -80,5 +118,9 @@ public class MenuPrincipalGerenciador extends Menu {
 		lblNome.setText(lblNome.getText()+ unico.getNome()); 
 		lblEmail.setText(lblEmail.getText()+ unico.getEmail()); 
 		lblTelefone.setText(lblTelefone.getText()+ unico.getTelefone()); 
+	}
+	
+	public void trocarSubMenu(String nome) {
+		card.show(subMenus,nome);
 	}
 }

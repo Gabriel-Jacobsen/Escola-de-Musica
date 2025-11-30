@@ -26,7 +26,8 @@ public class Unico {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		if (! nome.trim().isEmpty()) {
+		this.nome = nome;}
 	}
 
 	public String getTelefone() {
@@ -34,7 +35,8 @@ public class Unico {
 	}
 
 	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+		if (! telefone.trim().isEmpty()) {
+		this.telefone = telefone;}
 	}
 
 	public String getEmail() {
@@ -42,7 +44,8 @@ public class Unico {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		if (! email.trim().isEmpty()) {
+		this.email = email;}
 	}
 
 	public Date getNasc() {
