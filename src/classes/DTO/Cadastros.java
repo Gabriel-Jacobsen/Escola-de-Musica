@@ -23,7 +23,9 @@ public class Cadastros {
 	}
 
 	public void setSenha(String senha) {
+		if (! senha.trim().isEmpty()) {
 		this.senha = senha;
+		}
 	}
 
 	public Unico getUnico() {

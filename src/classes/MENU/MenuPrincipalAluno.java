@@ -1,6 +1,7 @@
 package classes.MENU;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 
 import javax.swing.Box;
@@ -13,6 +14,11 @@ import classes.DTO.Unico;
 
 public class MenuPrincipalAluno extends Menu {
 	
+	private CardLayout card;
+	private JPanel subMenus; 
+	
+	private SubMenuAlterarCadastro alterarCadastro;
+	
 	JLabel lblNome;
 	JLabel lblEmail;
 	JLabel lblTelefone;
@@ -21,7 +27,7 @@ public class MenuPrincipalAluno extends Menu {
 	public MenuPrincipalAluno(Janela janela) {
 		super(janela);
 
-		painel = new JPanel();
+		painel = new PanelImage("Images\\menuPrincipal.jpg");
 		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 		
 		lblNome = new JLabel("Nome: ");
@@ -57,8 +63,12 @@ public class MenuPrincipalAluno extends Menu {
 		painel.add(Box.createVerticalStrut(30));
 		painel.add(btnOlharMatriculas);
 		painel.add(Box.createVerticalGlue());
+		
+		card = new CardLayout();
+        subMenus = new JPanel(card);
 
 		add(painel, BorderLayout.WEST);
+		add(subMenus, BorderLayout.CENTER);
 	}
 
 	public void atualiza() {
@@ -66,6 +76,14 @@ public class MenuPrincipalAluno extends Menu {
 		lblNome.setText(lblNome.getText()+ unico.getNome()); 
 		lblEmail.setText(lblEmail.getText()+ unico.getEmail()); 
 		lblTelefone.setText(lblTelefone.getText()+ unico.getTelefone()); 
+		
+		alterarCadastro = new SubMenuAlterarCadastro(this, cadastroLogado);
+		subMenus.add(alterarCadastro, "alterarCadastro");
 	}
+	
+	public void trocarSubMenu(String nome) {
+		card.show(subMenus,nome);
+	}
+
 	
 }

@@ -22,6 +22,7 @@ public class MenuPrincipalGerenciador extends Menu {
 	 private SubMenuGerenciadorExcluir excluirCadastro = new SubMenuGerenciadorExcluir(this);
 	 private SubMenuGerenciadorAdicionarEspecialidade adicionarEspecialidade = new SubMenuGerenciadorAdicionarEspecialidade(this);
 	 private SubMenuGerenciadorAlterarCadastro alteraCadastro = new SubMenuGerenciadorAlterarCadastro(this);
+	 private SubMenuGerenciadorAdicionarAluno adicionarAluno = new SubMenuGerenciadorAdicionarAluno(this);
 	
 	JLabel lblNome;
 	JLabel lblEmail;
@@ -31,7 +32,7 @@ public class MenuPrincipalGerenciador extends Menu {
 	public MenuPrincipalGerenciador(Janela janela) {
 		super(janela);
 
-		painel = new JPanel();
+		painel = new PanelImage("Images\\menuPrincipal.jpg");
 		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 		
 		lblNome = new JLabel("Nome: ");
@@ -50,7 +51,7 @@ public class MenuPrincipalGerenciador extends Menu {
 		});
 		JButton btnAdicionarAlunos = new JButton("Aluno");
 		btnAdicionarAlunos.addActionListener(e -> {
-
+			trocarSubMenu("adicionarAluno");
 		});
 		JButton btnAdicionarProfessores = new JButton("Professor");
 		btnAdicionarProfessores.addActionListener(e -> {
@@ -108,6 +109,7 @@ public class MenuPrincipalGerenciador extends Menu {
         subMenus.add(adicionarInstrumento, "adicionarTipo");
         subMenus.add(adicionarEspecialidade, "adicionarEsp");
         subMenus.add(alteraCadastro, "alteraCadastro");
+        subMenus.add(adicionarAluno, "adicionarAluno");
 		
 		add(painel, border.WEST);
 		add(subMenus, border.CENTER);

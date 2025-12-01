@@ -16,6 +16,11 @@ public class TipoInstrumento {
 		this.idTipo = id;
 		this.nome = nome;
 	}
+	
+	public TipoInstrumento(int id) {
+		this.idTipo = id;
+	}
+
 
 	public int getIdTipo() {
 		return idTipo;

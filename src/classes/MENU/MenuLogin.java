@@ -1,7 +1,9 @@
 package classes.MENU;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,12 +21,16 @@ public class MenuLogin extends Menu{
 	public MenuLogin(Janela janela) {
 		super(janela);
 
-		JPanel painel = new JPanel();
+		JPanel painel = new PanelImage("Images\\login2.jpg");
 		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 
 		JLabel lblLogin = new JLabel("Login:");
+		lblLogin.setOpaque(true);
+		lblLogin.setBackground(new Color(250, 250, 250, 150));
         JTextField txtLogin = new JTextField(20);
         JLabel lblSenha = new JLabel("Senha:");
+        lblSenha.setOpaque(true);
+        lblSenha.setBackground(new Color(250, 250, 250, 150));
         JTextField txtSenha = new JTextField(20);
         JButton btnEnviar = new JButton("Enviar");
         btnEnviar.addActionListener(e -> {

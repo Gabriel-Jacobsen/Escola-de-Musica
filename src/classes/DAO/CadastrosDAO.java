@@ -39,7 +39,7 @@ public class CadastrosDAO {
         try {
             Connection conn = Conexao.conectar();
             String sql = "UPDATE " + NOMEDATABELA +
-                         " SET senha = ?, idTipo = ? WHERE CPF = ?;";
+                         " SET senha = ?, Tipo = ? WHERE CPF = ?;";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
