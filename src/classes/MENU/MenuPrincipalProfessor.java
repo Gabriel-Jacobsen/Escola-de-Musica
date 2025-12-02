@@ -23,6 +23,8 @@ public class MenuPrincipalProfessor extends Menu {
 	private JPanel subMenus; 
 	
 	private SubMenuAlterarCadastro alterarCadastro;
+	private SubMenuOlharMatricula olhaMatricula;
+	private SubMenuProfessorCriaAula criarAula;
 	
 	JLabel lblNome;
 	JLabel lblEmail;
@@ -43,15 +45,17 @@ public class MenuPrincipalProfessor extends Menu {
 
 		JButton btnAlterarCadastro = new JButton("Alterar Cadastro");
 		btnAlterarCadastro.addActionListener(e -> {
-
+			trocarSubMenu("alterarCadastro");
 		});
 		JButton btnAulas = new JButton("Gerenciar Aulas");
 		btnAulas.addActionListener(e -> {
-
+			criarAula.mostrar();
+			trocarSubMenu("criarAula");
 		});
 		JButton btnOlharMatriculas = new JButton("Matriculas Cadastradas");
 		btnOlharMatriculas.addActionListener(e -> {
-
+			olhaMatricula.mostrarProfessores();
+			trocarSubMenu("olharMatricula");
 		});
 
 		btnAlterarCadastro.setMaximumSize(new Dimension(150, 40));
@@ -90,8 +94,12 @@ public class MenuPrincipalProfessor extends Menu {
 		lblTelefone.setText(lblTelefone.getText()+ unico.getTelefone()); 
 		lblSalario.setText(lblSalario.getText() + prof.getSalario());
 		
+		olhaMatricula = new SubMenuOlharMatricula(this, cadastroLogado);
+		subMenus.add(olhaMatricula, "olharMatricula");
 		alterarCadastro = new SubMenuAlterarCadastro(this, cadastroLogado);
 		subMenus.add(alterarCadastro, "alterarCadastro");
+		criarAula = new SubMenuProfessorCriaAula(this, cadastroLogado);
+		subMenus.add(criarAula, "criarAula");
 	}
 	
 	public void trocarSubMenu(String nome) {

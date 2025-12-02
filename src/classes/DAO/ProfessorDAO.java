@@ -92,6 +92,19 @@ public class ProfessorDAO {
             return null;
         }
     }
+    public List<Professor> procurarPorTipo(int idTipo) {
+        try {
+            Connection conn = Conexao.conectar();
+            String sql = "SELECT * FROM " + NOMEDATABELA + " JOIN UNICO ON UNICO.CPF = PROFESSOR.CPF join ESPECIALIDADE AS ASP ON PROFESSOR.CPF = ASP.PROFESSOR_CPF WHERE idTipo = "+idTipo+";";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            List<Professor> listObj = montarLista(rs);
+            return listObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public Professor procurarPorNome(Professor professor) {
         try {

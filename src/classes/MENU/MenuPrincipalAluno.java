@@ -18,6 +18,8 @@ public class MenuPrincipalAluno extends Menu {
 	private JPanel subMenus; 
 	
 	private SubMenuAlterarCadastro alterarCadastro;
+	private SubMenuOlharMatricula olhaMatricula;
+	private SubMenuCriaMatricula criaMatricula;
 	
 	JLabel lblNome;
 	JLabel lblEmail;
@@ -36,15 +38,17 @@ public class MenuPrincipalAluno extends Menu {
 		
 		JButton btnAlterarCadastro = new JButton("Alterar Cadastro");
 		btnAlterarCadastro.addActionListener(e -> {
-
+			trocarSubMenu("alterarCadastro");
 		});
 		JButton btnFazerMatricula = new JButton("Matricular-se");
 		btnFazerMatricula.addActionListener(e -> {
-
+			criaMatricula.mostrar();
+			trocarSubMenu("criarMatricula");
 		});
 		JButton btnOlharMatriculas = new JButton("Matriculas Cadastradas");
 		btnOlharMatriculas.addActionListener(e -> {
-
+			olhaMatricula.mostrarAlunos();
+			trocarSubMenu("olharMatricula");
 		});
 
 		btnAlterarCadastro.setMaximumSize(new Dimension(150, 40));
@@ -77,8 +81,12 @@ public class MenuPrincipalAluno extends Menu {
 		lblEmail.setText(lblEmail.getText()+ unico.getEmail()); 
 		lblTelefone.setText(lblTelefone.getText()+ unico.getTelefone()); 
 		
+		criaMatricula = new SubMenuCriaMatricula(this, cadastroLogado);
+		olhaMatricula = new SubMenuOlharMatricula(this, cadastroLogado);
 		alterarCadastro = new SubMenuAlterarCadastro(this, cadastroLogado);
+		subMenus.add(olhaMatricula, "olharMatricula");
 		subMenus.add(alterarCadastro, "alterarCadastro");
+		subMenus.add(criaMatricula, "criarMatricula");
 	}
 	
 	public void trocarSubMenu(String nome) {

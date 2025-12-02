@@ -42,6 +42,7 @@ public class MenuPrincipalGerenciador extends Menu {
 		JButton btnAlterarCadastro = new JButton("Alterar Cadastro");
 		btnAlterarCadastro.addActionListener(e -> {
 			alteraCadastro.mostrarProfessores();
+			alteraCadastro.mostrarAlunos();
 			trocarSubMenu("alteraCadastro");
 		});
 		JButton btnExcluirCadastro = new JButton("Excluir cadastro");

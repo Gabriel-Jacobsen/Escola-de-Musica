@@ -8,8 +8,10 @@ import java.util.List;
 
 import classes.Conexao.Conexao;
 import classes.DTO.Aluno;
+import classes.DTO.Cadastros;
 import classes.DTO.Matricula;
 import classes.DTO.Professor;
+import classes.DTO.Unico;
 
 public class MatriculaDAO {
 	
@@ -18,12 +20,16 @@ public class MatriculaDAO {
 	    public boolean inserir(Matricula matricula) { 
 	        try {
 	            Connection conn = Conexao.conectar();
-	            String sql = "INSERT INTO " + NOMEDATABELA + " (ALUNO_CPF,PROFESSOR_CPF,ID_TIPO,SALA_PREFERENCIAL,HORARIO,HORARIO_FIM) VALUES (?,?,?,?,?,?);";
+	            String sql = "INSERT INTO " + NOMEDATABELA + " (ALUNO_CPF,PROFESSOR_CPF,IDTIPO,SALA_PREFERENCIAL,HORARIO,HORARIOFIM) VALUES (?,?,?,?,?,?);";
 	            PreparedStatement ps = conn.prepareStatement(sql);
 	            ps.setString(1, matricula.getAluno().getCpf()); 
 	            ps.setString(2, matricula.getProfessor().getCpf());
 	            ps.setInt(3, matricula.getIdTipo());
-	            ps.setInt(4, matricula.getSalaPreferencial());
+	            if (matricula.getSalaPreferencial() == 0) {
+	                ps.setNull(4, java.sql.Types.INTEGER);
+	            } else {
+	                ps.setInt(4, matricula.getSalaPreferencial());
+	            }
 	            ps.setDate(5, matricula.getHorario());
 	            ps.setDate(6, matricula.getHorarioFim());
 	            ps.executeUpdate();
@@ -72,34 +78,51 @@ public class MatriculaDAO {
 	             return false;
 	        }
 	    }
-	    public Matricula procurarPorCodigo(Matricula matricula) {
+	    public List<Matricula> procurarPorAluno(Cadastros cadastro) {
 	        try {
 	            Connection conn = Conexao.conectar();
 	            String sql = "SELECT * FROM " + NOMEDATABELA + 
 	            		" join unico as alu on aluno_cpf = alu.cpf join unico as prof"+
-	            		" on professor_cpf = prof.cpf join professor on professor_cpf = professor.cpf WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND ID_TIPO = ?;";
+	            		" on professor_cpf = prof.cpf join professor on professor_cpf = professor.cpf WHERE ALUNO_CPF = ?;";
 	            PreparedStatement ps = conn.prepareStatement(sql);
-	            ps.setInt(3, matricula.getIdTipo());
+	            ps.setString(1, cadastro.getLogin()); 
 	            ResultSet rs = ps.executeQuery();
-	            if (rs.next()) {
-	            	Matricula obj = new Matricula(new Aluno(rs.getString(1), rs.getString(8), rs.getDate(11)),
-	            			new Professor(rs.getString(2), rs.getString(13), rs.getDate(16), rs.getDouble(18),rs.getDate(19)),
-	            			rs.getInt(3), rs.getDate(4));
-	                obj.setSalaPreferencial(rs.getInt(6));
-	                obj.setHorarioFim(rs.getDate(5));
-	                ps.close();
-	                rs.close();
-	                conn.close();
-	                return obj;
-	            } else {
-	                ps.close();
-	                rs.close();
-	                conn.close();
-	                return null;
-	            }
+	            List<Matricula> listObj = montarLista(rs);  
+	            return listObj;
 	        } catch (Exception e) {
 	        	 e.printStackTrace();
 	             return null;
+	        }
+	    }
+	    public List<Matricula> procurarPorProfessor(Cadastros cadastro) {
+	        try {
+	            Connection conn = Conexao.conectar();
+	            String sql = "SELECT * FROM " + NOMEDATABELA + 
+	            		" join unico as alu on aluno_cpf = alu.cpf join unico as prof"+
+	            		" on professor_cpf = prof.cpf join professor on professor_cpf = professor.cpf WHERE Professor_CPF = ?;";
+	            PreparedStatement ps = conn.prepareStatement(sql);
+	            ps.setString(1, cadastro.getLogin()); 
+	            ResultSet rs = ps.executeQuery();
+	            List<Matricula> listObj = montarLista(rs);  
+	            return listObj;
+	        } catch (Exception e) {
+	        	 e.printStackTrace();
+	             return null;
+	        }
+	    }
+	    
+	    public int contarPorProfessorETipo(Professor p, int idTipo) {
+	        try {
+	            Connection conn = Conexao.conectar();
+	            String sql = "SELECT COUNT(*) FROM " + NOMEDATABELA +"  WHERE professor_cpf = ? AND idtipo = ?";
+	            PreparedStatement ps = conn.prepareStatement(sql);
+	            ps.setString(1, p.getCpf());
+	            ps.setInt(2, idTipo);
+	            ResultSet rs = ps.executeQuery();
+	            rs.next();
+	            return rs.getInt(1);
+	        } catch (Exception e) {
+	            return Integer.MAX_VALUE;
 	        }
 	    }
 //	    public Matricula procurarPorNome(Matricula matricula) {
@@ -131,9 +154,11 @@ public class MatriculaDAO {
 	    public boolean existe(Matricula matricula) {
 	        try {
 	            Connection conn = Conexao.conectar();
-	            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND ID_TIPO = ?;";
+	            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND IDTIPO = ?;";
 	            PreparedStatement ps = conn.prepareStatement(sql);
-	            ps.setInt(1, matricula.getIdTipo());
+	            ps.setString(1, matricula.getAluno().getCpf()); 
+	            ps.setString(2, matricula.getProfessor().getCpf());
+	            ps.setInt(3, matricula.getIdTipo());
 	            ResultSet rs = ps.executeQuery();
 	            if (rs.next()) {
 	                ps.close();

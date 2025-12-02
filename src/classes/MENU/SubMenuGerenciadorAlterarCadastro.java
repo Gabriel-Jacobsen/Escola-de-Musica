@@ -15,8 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import classes.BO.AlunoBO;
 import classes.BO.ProfessorBO;
 import classes.BO.UnicoBO;
+import classes.DTO.Aluno;
 import classes.DTO.Professor;
 import classes.DTO.Unico;
 
@@ -25,8 +27,10 @@ public class SubMenuGerenciadorAlterarCadastro extends SubMenu {
 	private DefaultListModel<String> modelProf = new DefaultListModel<>();
 	private DefaultListModel<String> modelAluno = new DefaultListModel<>();
 	private JList<String> jListaProf = new JList<>(modelProf);
+	private JList<String> jListaAluno = new JList<>(modelAluno);
 	
 	List<Professor> listaProfessor = new ArrayList<>();
+	List<Aluno> listaAluno = new ArrayList<>();
 	
 	JLabel lbl1 = new JLabel("Salario: ");
 	JLabel lbl2 = new JLabel("Nome: ");
@@ -36,6 +40,14 @@ public class SubMenuGerenciadorAlterarCadastro extends SubMenu {
 	JTextField txt2 = new JTextField();
 	JTextField txt3 = new JTextField();
 	JTextField txt4 = new JTextField();
+	
+
+	JLabel lbl5 = new JLabel("Nome: ");
+	JLabel lbl6 = new JLabel("Telefone: ");
+	JLabel lbl7 = new JLabel("Email: ");
+	JTextField txt5 = new JTextField();
+	JTextField txt6 = new JTextField();
+	JTextField txt7 = new JTextField();
 
 	public SubMenuGerenciadorAlterarCadastro(Menu menu) {
 		super(menu);
@@ -49,7 +61,15 @@ public class SubMenuGerenciadorAlterarCadastro extends SubMenu {
 		
 		JButton btnEnviarAlunos = new JButton("Enviar Aluno");
 		btnEnviarAlunos.addActionListener(e -> {
-
+			UnicoBO unicoBO = new UnicoBO();
+			Aluno aluno = listaAluno.get(jListaAluno.getSelectedIndex());
+			
+			aluno.setNome(txt5.getText());
+			aluno.setTelefone(txt6.getText());
+			aluno.setEmail(txt7.getText());
+			
+			unicoBO.alterar(aluno);
+			mostrarAlunos();
 		});
 		JButton btnEnviarProfessores = new JButton("Enviar Professor");
 		btnEnviarProfessores.addActionListener(e -> {
@@ -76,6 +96,9 @@ public class SubMenuGerenciadorAlterarCadastro extends SubMenu {
 		txt2.setMaximumSize(new Dimension(250, 40));
 		txt3.setMaximumSize(new Dimension(250, 40));
 		txt4.setMaximumSize(new Dimension(250, 40));
+		txt5.setMaximumSize(new Dimension(250, 40));
+		txt6.setMaximumSize(new Dimension(250, 40));
+		txt7.setMaximumSize(new Dimension(250, 40));
 		
 		//jListaProf.setMaximumSize(new Dimension(250, 500));
 		
@@ -96,8 +119,23 @@ public class SubMenuGerenciadorAlterarCadastro extends SubMenu {
 		painelW.add(btnEnviarProfessores);
 		painelW.add(Box.createVerticalGlue());
 		
-		add(painelW, BorderLayout.WEST);
+		painelL.add(new JScrollPane(jListaAluno));
+		painelL.add(Box.createVerticalStrut(30));
+		painelL.add(lbl5);
+		painelL.add(txt5);
+		painelL.add(Box.createVerticalStrut(30));
+		painelL.add(lbl6);
+		painelL.add(txt6);
+		painelL.add(Box.createVerticalStrut(30));
+		painelL.add(lbl7);
+		painelL.add(txt7);
+		painelL.add(Box.createVerticalGlue());
+		painelL.add(btnEnviarAlunos);
+		painelL.add(Box.createVerticalGlue());
 		
+		
+		add(painelW, BorderLayout.WEST);
+		add(painelL, BorderLayout.EAST);
 	}
 
 	
@@ -109,6 +147,16 @@ public class SubMenuGerenciadorAlterarCadastro extends SubMenu {
 		
 		for (Professor p : listaProfessor) {
 			modelProf.addElement(p.getNome() + " - " + p.getCpf() + " - R$" + p.getSalario());
+		}
+	}
+	public void mostrarAlunos() {
+		modelAluno.clear(); // limpa lista
+
+		AlunoBO alunoBo = new AlunoBO();
+		listaAluno = alunoBo.pesquisarTodos();
+		
+		for (Aluno p : listaAluno) {
+			modelAluno.addElement(p.getNome() + " - " + p.getCpf());
 		}
 	}
 }

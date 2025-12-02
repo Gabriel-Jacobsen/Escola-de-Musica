@@ -58,7 +58,4 @@ public class Matricula {
 		HorarioFim = horarioFim;
 	}	
 	
-	
-	
-	//CRIAR MÉTODO GERAR MENSALIDADE
 }	

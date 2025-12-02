@@ -64,7 +64,7 @@ package classes.DAO;
 	    public Aluno procurarPorCodigo(Aluno aluno ) {
 	        try {
 	            Connection conn = Conexao.conectar();
-	            String sql = "SELECT * FROM " + NOMEDATABELA + " join unico (cpf) WHERE CPF = ?;";
+	            String sql = "SELECT * FROM " + NOMEDATABELA + " join unico using (cpf) WHERE CPF = ?;";
 	            PreparedStatement ps = conn.prepareStatement(sql);
 	            ps.setString(1, aluno.getCpf());
 	            ResultSet rs = ps.executeQuery();

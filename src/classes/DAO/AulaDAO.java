@@ -9,23 +9,30 @@ import java.util.List;
 import classes.Conexao.Conexao;
 import classes.DTO.Aluno;
 import classes.DTO.Aula;
+import classes.DTO.Matricula;
 import classes.DTO.Professor;
 
 public class AulaDAO {
 	
-	 final String NOMEDATABELA = "Matricula";
+	 final String NOMEDATABELA = "Aula";
 	    
     public boolean inserir(Aula aula) { 
         try {
             Connection conn = Conexao.conectar();
-            String sql = "INSERT INTO " + NOMEDATABELA + " (ALUNO_CPF,PROFESSOR_CPF,ID_TIPO,SALA_PREFERENCIAL,HORARIO,HORARIO_FIM) VALUES (?,?,?,?,?,?);";
+            String sql = "INSERT INTO " + NOMEDATABELA + " (ALUNO_CPF,PROFESSOR_CPF,IDTIPO,HORARIO, DATA, ALUNO_PRESENTE, SALA, CONTEUDO) VALUES (?,?,?,?,?,?,?,?);";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, aula.getAluno().getCpf()); 
             ps.setString(2, aula.getProfessor().getCpf());
             ps.setInt(3, aula.getIdTipo());
-            ps.setInt(4, aula.getSalaPreferencial());
-            ps.setDate(5, aula.getHorario());
-            ps.setDate(6, aula.getHorarioFim());
+            ps.setDate(4, aula.getHorario());
+            ps.setDate(5, aula.getData());
+            ps.setBoolean(6, aula.isAlunoPresente());
+            if (aula.getSala() == 0) {
+                ps.setNull(7, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(7, aula.getSala());
+            }
+            ps.setString(8, aula.getConteudo());
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -39,7 +46,7 @@ public class AulaDAO {
     public boolean alterar(Aula aula) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "UPDATE " + NOMEDATABELA + " SET SALA_PREFERENCIAL= ?, HORARIO = ?, HORARIO_FIM = ? WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND ID_TIPO = ?;";
+            String sql = "UPDATE " + NOMEDATABELA + " SET SALA_PREFERENCIAL= ?, HORARIO = ?, HORARIO_FIM = ? WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND IDTIPO = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, aula.getSalaPreferencial());
             ps.setDate(2, aula.getHorario());
@@ -75,36 +82,19 @@ public class AulaDAO {
         }
     }
     
-    public Aula procurarPorCodigo(Aula aula) {
+    public List<Aula> procurarPorCodigo(Matricula aula) {
         try {
             Connection conn = Conexao.conectar();
             String sql = "SELECT * FROM " + NOMEDATABELA + 
             		" join unico as alu on aluno_cpf = alu.cpf join unico as prof"+
-            		" on professor_cpf = prof.cpf join professor on professor_cpf = professor.cpf WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND ID_TIPO = ?;";
+            		" on professor_cpf = prof.cpf join professor on professor_cpf = professor.cpf WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND idTIPO = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, aula.getAluno().getCpf());
             ps.setString(2, aula.getProfessor().getCpf());
             ps.setInt(3, aula.getIdTipo());
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-            	Aula obj = new Aula(
-            			new Aluno(rs.getString(1), rs.getString(11), rs.getDate(14)),
-            			new Professor(rs.getString(2), rs.getString(16), rs.getDate(19), rs.getDouble(21),rs.getDate(22)),
-            			rs.getInt(3), 
-            			rs.getDate(4), rs.getDate(5)
-            	);
-                obj.setSalaPreferencial(rs.getInt(6));
-                obj.setHorarioFim(rs.getDate(5));
-                ps.close();
-                rs.close();
-                conn.close();
-                return obj;
-            } else {
-                ps.close();
-                rs.close();
-                conn.close();
-                return null;
-            }
+            List<Aula> listObj = montarLista(rs);  
+            return listObj;
         } catch (Exception e) {
         	 e.printStackTrace();
              return null;
@@ -114,7 +104,7 @@ public class AulaDAO {
     public boolean existe(Aula aula) {
         try {
             Connection conn = Conexao.conectar();
-            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND ID_TIPO = ?;";
+            String sql = "SELECT * FROM " + NOMEDATABELA + " WHERE ALUNO_CPF = ? AND PROFESSOR_CPF = ? AND idTIPO = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, aula.getAluno().getCpf());
             ps.setString(2, aula.getProfessor().getCpf());

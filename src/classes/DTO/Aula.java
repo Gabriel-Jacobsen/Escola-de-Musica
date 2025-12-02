@@ -53,7 +53,8 @@ public class Aula extends Matricula{
 
 
 	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
+		if (! (conteudo == null) && ! conteudo.trim().isEmpty()) {
+		this.conteudo = conteudo;}
 	}
 
 	
